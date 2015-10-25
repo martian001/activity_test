@@ -9,6 +9,18 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.junit.Test;
 
+/**
+ * 
+ * ★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★<br>
+ * ★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★<br>
+ * ★☆ @author： liangyanjun <br>
+ * ★☆ @time：2015年10月25日下午7:59:33 <br>
+ * ★☆ @version： <br>
+ * ★☆ @lastMotifyTime： <br>
+ * ★☆ @ClassAnnotation： <br>
+ * ★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★<br>
+ * ★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★<br>
+ */
 public class Helloworld {
    // 工作流程引擎
    ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();// 默认取classpath下的activiti.cfg.xml
@@ -18,7 +30,7 @@ public class Helloworld {
    public void deploymentProcessDefinition() {
       Deployment deployment = processEngine.getRepositoryService()// 与流程定义和部署对象相关的service
             .createDeployment()// 创建一个部署对象
-            .name("helloworld入门程序3")// 添加部署名称
+            .name("helloworld入门程序1")// 添加部署名称
             .addClasspathResource("diagrams/helloworld.bpmn")// 从classpath的资源中加载，一次只能加载一个文件
             .addClasspathResource("diagrams/helloworld.png")// 从classpath的资源中加载，一次只能加载一个文件
             // .addZipInputStream(new ZipInputStream(getClass().getClassLoader().getResourceAsStream("helloworld.zip")))

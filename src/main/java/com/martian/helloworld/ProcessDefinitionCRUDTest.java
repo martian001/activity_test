@@ -3,7 +3,10 @@ package com.martian.helloworld;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
@@ -12,7 +15,27 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
 /**
- * ★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★<br> ★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★<br> ★☆ @author： liangyanjun <br> ★☆ @time：2015年10月25日下午7:18:51 <br> ★☆ @version： <br> ★☆ @lastMotifyTime： <br> ★☆ @ClassAnnotation： <br> ★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★<br> ★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★<br>
+ * 
+ * ★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★<br>
+ * ★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★<br>
+ * ★☆ @author： liangyanjun <br>
+ * ★☆ @time：2015年10月25日下午7:59:41 <br>
+ * ★☆ @version： <br>
+ * ★☆ @lastMotifyTime： <br>
+ * ★☆ @ClassAnnotation： <br>
+ * ★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★<br>
+ * ★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★<br>
+ * 
+ * Deployment 部署对象
+ * 1.一次部署的多个文件的信息。对于不需要的流程定义可以删除和修改。
+ * 2.对应的表
+ * act_re_deployment 部署对象表
+ * act_re_procdef 流程定义表
+ * act_ge_bytearray 资源文件表
+ * act_ge_property  主键生成策略表
+ * 
+ * ProcessDefinition 流程定义
+ * 1.解析.bpmn后得到的流程定义规则的信息，工作流系统就是按照流程定义的规则执行
  */
 public class ProcessDefinitionCRUDTest {
    // 工作流程引擎
@@ -92,5 +115,38 @@ public class ProcessDefinitionCRUDTest {
       File file = new File("d:/" + resourceName);
       FileUtils.copyInputStreamToFile(in, file);
 
+   }
+
+   /**
+    * 附加功能：查询最新版本的流程定义
+    */
+   @Test
+   public void getLastProsstion() {
+      List<ProcessDefinition> list = processEngine.getRepositoryService()//
+            .createProcessDefinitionQuery()//
+            .orderByProcessDefinitionVersion().asc()// 使用流程定义的版本升序排序
+            .list();
+      /**
+       * Map<String,ProcessDefinition>
+       * map集合的key：流程定义的key
+       * map集合的value：流程定义对象
+       * map集合的特点：当map集合的key值相同的情况下，后一次的值会替换前一次的值
+       */
+      Map<String, ProcessDefinition> map = new LinkedHashMap<String, ProcessDefinition>();
+      for (ProcessDefinition pd : list) {
+         map.put(pd.getKey(), pd);
+      }
+      List<ProcessDefinition> pdList = new ArrayList<ProcessDefinition>(map.values());
+      for (ProcessDefinition pd : pdList) {
+         System.out.println("流程定义id：" + pd.getId());// 流程定义的key+版本+随机生成数
+         System.out.println("流程定义名称：" + pd.getName());// 对应helloworld.bpmn文件中的name属性值
+         System.out.println("流程定义的key：" + pd.getKey());// 对应helloworld.bpmn文件中的id属性值
+         System.out.println("流程定义的版本：" + pd.getVersion());// 当流程定义的key值相同的情况下，版本升级，默认是1
+         System.out.println("资源名称bpmn文件：" + pd.getResourceName());
+         System.out.println("资源名称png文件：" + pd.getDiagramResourceName());
+         System.out.println("部署对象id：" + pd.getDeploymentId());
+         System.out.println("##############################################");
+
+      }
    }
 }
