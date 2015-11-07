@@ -2,6 +2,7 @@ package com.martian.util;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
@@ -73,6 +74,12 @@ public class ProcessEngineUtil {
    /** 4.完成我的的任务 */
    public void completeMyprocessTast(String taskId) {
       processEngine.getTaskService().complete(taskId);
+      System.out.println("完成任务，任务ID:" + taskId);
+   }
+
+   /** 5.完成我的的任务 */
+   public void completeMyprocessTast(String taskId, Map variables) {
+      processEngine.getTaskService().complete(taskId, variables);
       System.out.println("完成任务，任务ID:" + taskId);
    }
 

@@ -77,7 +77,7 @@ public class ProcessDefinitionCRUDTest {
    @Test
    public void deleteProcessDefinition() {
       // 使用部署id，完成删除（act_re_procdef DEPLOYMENT_ID_）
-      String deploymentId = "401";
+      String deploymentId = "5001";
       /**
        * 不带级联删除
        *     只能删除没有启动的流程，如果流程启动，就会抛错
