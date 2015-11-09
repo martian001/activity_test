@@ -62,12 +62,30 @@ public class ProcessEngineUtil {
       return pi;
    }
 
-   /** 3.查询当前个人的任务 */
+   /** 2.启动流程实例 并设置流程变量*/
+   public ProcessInstance startProcessInstance(String processDefinitionKey, Map variables) {
+      ProcessInstance pi = processEngine.getRuntimeService()// 与正在执行的流程实例和执行对象相关的service
+            .startProcessInstanceByKey(processDefinitionKey, variables);// 使用流程定义的key启动流程实例，key对应helloworld.bpmn文件中的id属性值
+      // act_re_procdef表
+      // System.out.println("流程实例ID:" + pi.getId());
+      // System.out.println("流程定义ID:" + pi.getProcessDefinitionId());
+      return pi;
+   }
+
+   /** 3.根据办理人查询当前个人的任务 */
    public List<Task> findMyprocessTast(String assignee) {
       List<Task> list = processEngine.getTaskService()// 与正在执行的任务管理相关的service
             .createTaskQuery()// 创建任务查询对象
             .taskAssignee(assignee)// 指定个人任务查询，指定班里人
             .list();
+      return list;
+   }
+
+   /** 3.根据组的办理人查询当前个人的任务 */
+   public List<Task> findMyGroupTast(String candidateUser) {
+      List<Task> list = processEngine.getTaskService()// 与正在执行的任务管理相关的service
+            .createTaskQuery()// 创建任务查询对象
+            .taskCandidateUser(candidateUser).list();
       return list;
    }
 

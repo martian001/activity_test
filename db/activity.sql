@@ -12,3 +12,6 @@ SELECT * FROM `act_hi_actinst`;#所有活动节点的历史表
 #流程变量
 SELECT * FROM `act_ru_variable`;#正在执行的流程变量
 SELECT * FROM `act_hi_varinst`;#历史的流程变量  
+#任务组分配
+SELECT * FROM `act_ru_identitylink`;#任务办理人表（个人任务，组任务）
+SELECT * FROM `act_hi_identitylink`;#历史任务办理人表（个人任务，组任务）
