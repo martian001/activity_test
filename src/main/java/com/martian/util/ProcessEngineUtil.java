@@ -100,5 +100,13 @@ public class ProcessEngineUtil {
       processEngine.getTaskService().complete(taskId, variables);
       System.out.println("完成任务，任务ID:" + taskId);
    }
-
+   /**
+    *  删除流程实例
+    *@author:liangyanjun
+    *@time:2016年4月22日上午9:39:57
+    *@param processInstanceId
+    */
+  public void deleteProcessInstance(String processInstanceId){
+     processEngine.getRuntimeService().deleteProcessInstance(processInstanceId, "");
+  }
 }
