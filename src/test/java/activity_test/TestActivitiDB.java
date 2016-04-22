@@ -17,7 +17,7 @@ public class TestActivitiDB {
         processEngineConfiguration.setJdbcDriver("com.mysql.jdbc.Driver");
         processEngineConfiguration.setJdbcUrl("jdbc:mysql://localhost:3306/activitiDB?useUnicode=true&characterEncoding=utf8");
         processEngineConfiguration.setJdbcUsername("root");
-        processEngineConfiguration.setJdbcPassword("root");
+        processEngineConfiguration.setJdbcPassword("123456");
         
        /** public static final String DB_SCHEMA_UPDATE_FALSE = "false";不能自动创建表，需要表存在
            public static final String DB_SCHEMA_UPDATE_CREATE_DROP = "create-drop";先删除表在创建表
