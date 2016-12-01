@@ -1,14 +1,19 @@
 package com.martian.erp;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.junit.Test;
 
+import com.martian.util.FileUtils;
 import com.martian.util.ProcessEngineUtil;
 
 /**
@@ -46,13 +51,31 @@ public class ERPTest {
       System.out.println("流程实例ID:" + pi.getId());
       System.out.println("流程定义ID:" + pi.getProcessDefinitionId());
    }
-
+   /** 3.查询当前个人的任务 */
+   @Test
+   public void findMyprocessTast() {
+      String assignee = "liangyanjun";
+      List<Task> list = processEngine.getTaskService()// 与正在执行的任务管理相关的service
+            .createTaskQuery()// 创建任务查询对象
+            .taskAssignee(assignee)// 指定个人任务查询，指定班里人
+            .list();
+      for (Task task : list) {
+         System.out.println("任务id:" + task.getId());
+         System.out.println("任务名称:" + task.getName());
+         System.out.println("任务创建时间:" + task.getCreateTime());
+         System.out.println("任务办理人:" + task.getAssignee());
+         System.out.println("任务实例id:" + task.getProcessInstanceId());
+         System.out.println("执行对象id:" + task.getExecutionId());
+         System.out.println("流程定义id:" + task.getProcessDefinitionId());
+         System.out.println("#########################################################");
+      }
+   }
    /** 4.完成我的的任务 */
    @Test
    public void completeMyprocessTast() {
-      String taskId = "2303";
+      String taskId = "47502";
       Map<String, Object> variables = new HashMap<String, Object>();
-      variables.put("specialType", 1);
+      variables.put("specialType", 2);
       engineUtil.completeMyprocessTast(taskId, variables);
    }
 
@@ -66,5 +89,19 @@ public class ERPTest {
    public void deleteProcessInstance() {
       String processInstanceId = "301";
       engineUtil.deleteProcessInstance(processInstanceId);
+   }
+   
+   /**
+    * 生成历史流程跟踪图
+    *@author:liangyanjun
+    *@time:2016年12月1日下午5:29:41
+    *@throws IOException
+    */
+   @Test
+   public void createPng() throws IOException {
+       ProcessEngineUtil engineUtil = ProcessEngineUtil.getEngineUtil();
+       String processInstanceId="37501";
+       InputStream imageStream = engineUtil.getProcessPngIs(processInstanceId);
+       FileUtils.writerFile(imageStream, "D:\\png\\222.png");
    }
 }

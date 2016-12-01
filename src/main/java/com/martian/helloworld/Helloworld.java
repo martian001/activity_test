@@ -1,5 +1,7 @@
 package com.martian.helloworld;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import org.activiti.engine.ProcessEngine;
@@ -8,6 +10,9 @@ import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.junit.Test;
+
+import com.martian.util.FileUtils;
+import com.martian.util.ProcessEngineUtil;
 
 /**
  * 
@@ -79,5 +84,17 @@ public class Helloworld {
       processEngine.getTaskService().complete(taskId);
       System.out.println("完成任务，任务ID:" + taskId);
    }
-
+   /**
+    * 生成历史流程跟踪图
+    *@author:liangyanjun
+    *@time:2016年12月1日下午5:29:41
+    *@throws IOException
+    */
+   @Test
+   public void createPng() throws IOException {
+       ProcessEngineUtil engineUtil = ProcessEngineUtil.getEngineUtil();
+       String processInstanceId="37501";
+       InputStream imageStream = engineUtil.getProcessPngIs(processInstanceId);
+       FileUtils.writerFile(imageStream, "D:\\png\\222.png");
+   }
 }
